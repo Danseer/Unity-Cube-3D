@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System.IO;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -39,8 +37,7 @@ public class Languager : MonoBehaviour
         LangLoad();
 
         start.text = lng.buttons[0];
-        Debug.Log("!!!!!!!!!!!!!!"+lng.buttons[0]);
-        //start.text = lng.buttons[0];
+      
     }
 
     void OrksButton()
@@ -76,9 +73,6 @@ public class Languager : MonoBehaviour
         lng = JsonUtility.FromJson<Lang>(json);
 #endif
 
-
-
-        //SceneManager.LoadScene("Start");
     }
 
 }

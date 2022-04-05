@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
@@ -12,7 +11,6 @@ public class AdsCore : MonoBehaviour
     private string revardedVideo = "Rewarded Android";
     private string banner = "Banner_Android";
     private string gameId = "4667413";
-    // Start is called before the first frame update
 
 
     void Start()
@@ -47,9 +45,4 @@ public class AdsCore : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

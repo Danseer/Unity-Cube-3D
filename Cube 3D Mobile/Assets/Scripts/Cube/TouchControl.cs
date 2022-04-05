@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System;
-using System.Collections.Generic;
 
 public class TouchControl : MonoBehaviour, IDragHandler,IBeginDragHandler,IEndDragHandler
 {
@@ -16,7 +14,6 @@ public class TouchControl : MonoBehaviour, IDragHandler,IBeginDragHandler,IEndDr
 
     void Start()
     {
-
         StartCoroutine(Spawn());
     }
 
@@ -25,15 +22,16 @@ public class TouchControl : MonoBehaviour, IDragHandler,IBeginDragHandler,IEndDr
     IEnumerator Spawn()
     {
         countfForAds++;
+        cloneCube = null;
+        yield return new WaitForSeconds(1.5f);
+        cloneCube = SpawnCube();
+        cloneRigidbody = cloneCube.GetComponent<Rigidbody>();
+
         if (countfForAds == limitForADS)
         {
             AdsCore.ShowAdsVideo("Interstitial_Android");
             countfForAds = 0;
         }
-        cloneCube = null;
-        yield return new WaitForSeconds(1f);
-        cloneCube = SpawnCube();
-        cloneRigidbody = cloneCube.GetComponent<Rigidbody>();             
     }
 
     private GameObject SpawnCube()
@@ -67,16 +65,33 @@ public class TouchControl : MonoBehaviour, IDragHandler,IBeginDragHandler,IEndDr
 
     }
 
+    void Update()
+    {
+#if UNITY_ANDROID
+if (Input.touchCount > 0 && cloneCube)
+        {
+            Touch touch = Input.GetTouch(0);
+            if (touch.phase == TouchPhase.Ended)
+            {
+                cloneRigidbody.AddForce(cloneRigidbody.transform.forward * 30f, ForceMode.Impulse);
+                StartCoroutine(Spawn());
+            }
+        }
+#endif
 
-
+    }
 
 
     public void OnEndDrag(PointerEventData eventData)
     {
         
         Debug.Log("OnEndDrag");
+
+#if UNITY_EDITOR
         cloneRigidbody.AddForce(cloneRigidbody.transform.forward * 30f, ForceMode.Impulse);
         StartCoroutine(Spawn());
+#endif
+
     }
 
     public void OnBeginDrag(PointerEventData eventData)
